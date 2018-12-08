@@ -1,0 +1,151 @@
+﻿.popover{
+    max-width: 300px; /* Max Width of the popover (depending on the container!) */
+    min-width: 140px;
+}
+
+/*.form-group {
+    margin-bottom: 0px;
+}*/
+.btn:not(.btn-sm):not(.btn-lg) {
+    line-height: 1 !important;
+}
+
+.min-height-1{
+    min-height: 1px !important;
+}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    position: relative;
+    min-height: 66px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom:0px;
+}
+.select2 { /*แก้bug select2 เพี้ยน*/
+width:100%!important;
+}
+
+
+
+/* Percen width modal */
+@media (min-width: 768px) {
+    .modal-dialog.modal-20 {
+        width: 20% !important;
+    }
+
+    .modal-dialog.modal-30 {
+        width: 30% !important;
+    }
+
+    .modal-dialog.modal-40 {
+        width: 40% !important;
+    }
+
+    .modal-dialog.modal-50 {
+        width: 50% !important;
+    }
+
+    .modal-dialog .modal-55 {
+        width: 55% !important;
+    }
+
+    .modal-dialog.modal-60 {
+        width: 60% !important;
+    }
+
+    .modal-dialog.modal-70 {
+        width: 70% !important;
+    }
+
+    .modal-dialog.modal-80 {
+        width: 80% !important;
+    }
+
+    .modal-dialog.modal-90 {
+        width: 90% !important;
+    }
+
+    .modal-dialog.modal-100 {
+        width: 100% !important;
+    }
+}
+/* Percen width modal */
+
+@media (max-width: 768px) {
+    .modal-20.modal-dialog, .modal-30.modal-dialog, .modal-40.modal-dialog, .modal-50.modal-dialog, .modal-60.modal-dialog, .modal-70.modal-dialog, .modal-80.modal-dialog, .modal-90.modal-dialog {
+        width: 95%;
+    }
+}
+
+
+.error {
+    color:#e73d4a;
+}
+
+.select2-results__options {
+   max-height: 300px !important;
+}
+
+.div.dt-button-collection{
+    z-index : 20001 !important;
+}
+
+.div.dt-button-background{
+    z-index : 20000 !important;
+}
+
+
+.page-header.navbar .menu-toggler {
+    background-image: url(../img/sidebar_toggler_icon_default.png);
+}
+
+
+body {
+     background-image: linear-gradient(lightblue, grey, black);
+}
+.page-header.navbar{
+    background-image: linear-gradient(-90deg, lightblue, grey);
+}
+
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover, .page-sidebar{
+    background-color: black;
+}
+
+
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu > li:hover > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu > li.open > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu > li.active > a, .page-sidebar .page-sidebar-menu .sub-menu > li:hover > a, .page-sidebar .page-sidebar-menu .sub-menu > li.open > a, .page-sidebar .page-sidebar-menu .sub-menu > li.active > a{
+    background: #296ca0 !important;
+}
+
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li:hover > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.open > a, .page-sidebar .page-sidebar-menu > li:hover > a, .page-sidebar .page-sidebar-menu > li.open > a {
+    background: #296ca0;
+    color: white;
+}
+
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu > li > a, .page-sidebar .page-sidebar-menu .sub-menu > li > a {
+    color: white;
+}
+
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a, .page-sidebar .page-sidebar-menu > li > a {
+    border-top: 1px solid white;
+    color: white;
+}
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu li:hover > a > .arrow:before, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu li:hover > a > .arrow.open:before, .page-sidebar .page-sidebar-menu li:hover > a > .arrow:before, .page-sidebar .page-sidebar-menu li:hover > a > .arrow.open:before {
+    color: white;
+}
+
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li:hover > a > .arrow:before, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li:hover > a > .arrow.open:before, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.open > a > .arrow:before, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.open > a > .arrow.open:before, .page-sidebar .page-sidebar-menu > li:hover > a > .arrow:before, .page-sidebar .page-sidebar-menu > li:hover > a > .arrow.open:before, .page-sidebar .page-sidebar-menu > li.open > a > .arrow:before, .page-sidebar .page-sidebar-menu > li.open > a > .arrow.open:before {
+    color: white;
+}
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu li > a > .arrow:before, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu li > a > .arrow.open:before, .page-sidebar .page-sidebar-menu li > a > .arrow:before, .page-sidebar .page-sidebar-menu li > a > .arrow.open:before {
+    color: white;
+}
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > .arrow:before, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > .arrow.open:before, .page-sidebar .page-sidebar-menu > li > a > .arrow:before, .page-sidebar .page-sidebar-menu > li > a > .arrow.open:before {
+    color: white;
+}
+.portlet.box.purple>.portlet-title, .portlet.purple, .portlet>.portlet-body.purple{
+    background-color: black;
+}
+.portlet.box.purple {
+    border: 1px solid #7ccbe8;
+    border-top: 0;
+}

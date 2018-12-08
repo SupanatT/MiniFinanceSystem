@@ -1,0 +1,99 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 100%;
+}
+
+
+/*Custom Theme*/
+.page-header.navbar .page-logo .logo-default {
+    height: 46px;
+    margin: 0 0 0 0;
+    width: 130px;
+}
+
+[class^=m-icon-], [class^=m-icon-big-] {
+    background-image: url(../images/theme/syncfusion-icons.png);
+}
+
+.m-icon-white {
+    background-image: url("../images/theme/syncfusion-icons-white.png");
+}
+
+.page-sidebar .sidebar-toggler {
+    background: url("../images/layout/sidebar_inline_toggler_icon_blue.jpg");
+}
+
+/*.close {
+    background-image: url('../images/layout/remove-icon-small.png') !important;
+}*/
+
+.debug-message {
+    display: none;
+}
+
+.numeric ,.percent,.numInt{
+    text-align: right
+}
+
+.input-validation-error {
+    border-color: #a94442;
+}
+
+/*Custom Bootstrap*/
+.form-group {
+    margin-bottom: 10px;
+}
+
+a {
+    color: black;
+}
+
+.datepicker table td, .datepicker table th, .datetimepicker table td, .datetimepicker table th {
+    font-family: sans-serif!important;
+}
+
+.select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
+    color: #555;
+}
+
+/*lightblue*/
+.portlet.box.purple>.portlet-title, .portlet.purple, .portlet>.portlet-body.purple {
+    background-color: #387fb7;
+}
+.portlet.box.purple {
+    border: 1px solid #387fb7;
+    border-top: 0;
+}
+
+
+/*Green*/
+.portlet.box.purple>.portlet-title, .portlet.purple, .portlet>.portlet-body.purple {
+    background-color: #56de94;
+}
+.portlet.box.purple {
+    border: 1px solid #56de94;
+    border-top: 0;
+}
+.dataTables_scrollBody {
+    border-bottom: 1px !important;
+}

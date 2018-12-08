@@ -1,1 +1,1 @@
-Do not have DataModel (Entities DB) because of trade secret
+Do not show DataModel (Entities DB) because of trade secret

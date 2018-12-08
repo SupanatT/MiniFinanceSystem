@@ -1,0 +1,149 @@
+﻿@using MiniFinance.Common
+@model MiniFinance.ViewModel.ManageInputVat.SearchViewModel
+
+@*@section ScriptFirst{
+    <script>
+        function checkPermission() {
+            if ('@Html.ValueFor(x => x.permission.View)' != 'True') {
+                $('.@Html.IdFor(x => x.permission.View)').remove();
+            }
+            if ('@Html.ValueFor(x => x.permission.Save)' != 'True') {
+                $('.@Html.IdFor(x => x.permission.Save)').remove();
+            }
+        }
+    </script>
+}*@
+
+
+
+<div id="divForm">
+
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="#">การจัดการ</a>
+        </li>
+        <li>
+            <span class="active">รับใบกำกับภาษีซื้อ</span>
+        </li>
+    </ul>
+
+
+    <div class="row">
+        <div class="col-md-12 ">
+            <form method="post" id="formMain1">
+                <div class="portlet box purple" style="margin-bottom: 5px;">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            ข้อมูลสัญญา
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <div class="form-body">
+                            @*<div class="alert alert-danger display-hide">
+                                    <button class="close" data-close="alert"></button> You have some form errors. Please check below.
+                                </div>*@
+                            <div class="row">
+
+                                <div class="@*@Html.IdFor(x => x.permission.View)*@ ">
+                                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 form-group form-group-sm">
+                                        @*@Html.LabelFor(m => m.ContractCode, new { @class = "control-label" })*@
+                                        @Html.Label("ContractCode", new { @class = "control-label" })
+                                        <div class="input-group input-group-sm">
+                                            @Html.DropDownList("ContractCode", SelectListMethods.GetContractPaymentVatForDropdown(), "", new { @class = "form-control input-sm", required = true @*, @Value = Model.ContractCode*@ })
+                                            <span class="input-group-addon btn btn-primary" onclick="popup()">
+                                                <span class="fa fa-search"></span>
+                                            </span>
+                                        </div>
+                                        <button class="btn blue btn-sm display-none" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                        @*@Html.HiddenFor(x => x.ContractCode, new { @Value = Model.ContractCode })*@
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6 form-group form-group-sm">
+                                    @Html.LabelFor(m => m.CustIDCard, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.CustIDCard, "", new { @class = "form-control input-sm ", disabled = "disable", @Value = Model.CustIDCard })
+                                </div>
+
+
+                                <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6 form-group form-group-sm">
+                                    @Html.LabelFor(m => m.CustName, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.CustName, "", new { @class = "form-control input-sm  ", disabled = "disable", @Value = Model.CustName })
+                                </div>
+
+                               
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6 form-group form-group-sm">
+                                    @Html.LabelFor(m => m.LicenseNo, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.LicenseNo, "", new { @class = "form-control input-sm ", disabled = "disable", @Value = Model.LicenseNo })
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6 form-group form-group-sm">
+                                    @Html.LabelFor(m => m.ChassisNo, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.ChassisNo, "", new { @class = "form-control input-sm ", disabled = "disable", @Value = Model.ChassisNo })
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+                @*@Html.HiddenFor(x => x.ContractNo, new { @Value = Model.ContractNo })
+                @Html.HiddenFor(x => x.ProductTypeCode, new { @Value = Model.ProductTypeCode })*@
+            </form>
+            
+            <div id="divMain3">
+                @Html.Action("ManagePanel", "ManageInputVat", Model)
+            </div>
+
+         </div>
+    </div>
+
+
+
+    <script>
+
+        $(document).ready(function () {
+            $("#@Html.IdFor(m => m.ContractCode)").select2({
+                placeholder: 'ค้นหาเลขที่สัญญา',
+                minimumInputLength: 3
+            });
+
+            $("#@Html.IdFor(m => m.ContractCode)").change(function () {
+
+                $.ajax({
+                    url: '@Url.Action("Search", "ManageInputVat")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {ContractCode : this.value},
+                    success: function (e) {
+
+                       if (e.r == '@Constants.Result.True') {
+
+                           $('#divForm').html(e.result);
+
+                        }
+                    }
+                });
+
+
+            });
+         
+        });
+
+        function popup() {
+            var data = { ControllerName: "@Constants.ControllerName.ManageInputVat" };
+            modalPOST('', 'Base', 'ModalSearch', data, true);
+        }
+
+
+
+    </script>
+
+
+</div>

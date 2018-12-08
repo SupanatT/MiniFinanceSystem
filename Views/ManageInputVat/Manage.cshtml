@@ -1,0 +1,468 @@
+﻿
+@using MiniFinance.Common
+@model MiniFinance.ViewModel.ManageInputVat.ManageViewModel
+
+    <form id="formMain3">
+
+
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="portlet box purple" style="margin-bottom: 5px;">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            ข้อมูลภาษีซื้อ
+                        </div>
+
+                        <div class="tools">
+                            <button type="button" id="btnAutoReceive" class="btn red-haze  btn-sm hidden ">รูปแบบการชำระเงิน</button>
+
+                            <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+
+                        </div>
+
+                    </div>
+                    <div class="portlet-body form">
+                        <div class="">
+                            <!-- BEGIN BODY-->
+                            <div class="form-body">
+
+                                <div class="row">
+                                    <h5 class=""><b>เพิ่มรายการอื่นๆ</b></h5>
+                                    
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right: 0;">
+
+                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
+                                            <div class="form-group form-group-sm">
+                                                @Html.LabelFor(m => m.TransDesc, new { @class = "control-label" })
+
+                                                @if (Model.mode == "Edit")
+                                                {
+                                                    @Html.TextBoxFor(m => m.TransDesc, new { @class = "form-control input-sm", @Value = Model.TransDesc, @readonly = true })
+                                                    @Html.HiddenFor(m => m.TransCode, new { @Value = Model.TransCode})
+                                                }
+                                                else
+                                                {
+                                                    <!--Customize dropdown with custom attribute in option-->
+                                                    <select id="@Html.IdFor(m => m.TransCode)" name="@Html.IdFor(m => m.TransCode)" class="form-control input-sm" required>
+                                                        <option value="">@Constants.SelectOption.SelectOne</option>
+                                                        @foreach(var item in Model.lsDetail.Where(x => x.TransCode == Constants.TransCode.ProductHirePurchase))
+                                                        {
+                                                            <option value="@Constants.TransCode.ProductHirePurchase" header_id="@item.PayHeaderID" asset_id="@item.AssetID" asset_type="@item.AssetType" payeecode="@item.PayeeCode" payeename="@item.PayeeName" sellercode="@item.SellerCode" SellerName="@item.SellerName">@item.TransDesc</option>
+                                                        }
+                                                    </select>
+                                                    @Html.HiddenFor(m => m.TransDesc, new { @Value = Model.TransDesc })
+
+                                                }
+
+                                                @Html.HiddenFor(m => m.PayHeaderID, new { @Value = Model.PayHeaderID})
+                                                @Html.HiddenFor(m => m.AssetID, new { @Value = Model.AssetID })
+                                                @Html.HiddenFor(m => m.AssetType, new { @Value = Model.AssetType })
+                                                
+
+                                                
+                                            </div>
+                                        </div>
+
+                                       
+
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6" style="padding: 0;">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.ReceiveDocDate, new { @class = "control-label" })
+                                                <div class="input-group input-group-sm date date-picker" data-date-language="th-th" data-date-format="dd/mm/yyyy">
+                                                    @Html.TextBoxFor(m => m.ReceiveDocDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm", @placeholder = "วว/ดด/ปปปป", required = true, @Value = Model.ReceiveDocDate?.ToShortDateString() })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn default" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6" style="padding: 0;">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.InvoiceDate, new { @class = "control-label" })
+                                                <div class="input-group input-group-sm date date-picker" data-date-language="th-th" data-date-format="dd/mm/yyyy">
+                                                    @Html.TextBoxFor(m => m.InvoiceDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm", @placeholder = "วว/ดด/ปปปป", required = true, @Value = Model.InvoiceDate?.ToShortDateString() })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn default" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6" style="padding: 0;">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.ClaimDate, new { @class = "control-label" })
+                                                <div class="input-group input-group-sm date date-picker" data-date-language="th-th" data-date-format="dd/mm/yyyy">
+                                                    @Html.TextBoxFor(m => m.ClaimDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm", @placeholder = "วว/ดด/ปปปป", required = true, @Value = Model.ClaimDate?.ToShortDateString() })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn default" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4" style="padding: 0;">
+                                            <div class="form-group form-group-sm">
+                                                @Html.LabelFor(m => m.InvoiceNo, new { @class = "control-label" })
+                                                @Html.TextBoxFor(m => m.InvoiceNo, new { @class = "form-control input-sm", @required = true, @Value = Model.InvoiceNo })
+                                            </div>
+                                        </div>
+
+                                        
+
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4" style="padding: 0;margin-left:10px;">
+                                        <div class="form-group form-group-sm">
+                                            @Html.LabelFor(m => m.ExVatAmount, new { @class = "control-label" })
+                                            @Html.TextBoxFor(m => m.ExVatAmount, new { @class = "form-control input-sm text-right numeric", @onchange = "CalTotalAmt()", @required = true, @Value = Model.ExVatAmount })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4" style="padding: 0;">
+                                        <div class="form-group form-group-sm">
+                                            @Html.LabelFor(m => m.VatAmount, new { @class = "control-label" })
+                                            @Html.TextBoxFor(m => m.VatAmount, new { @class = "form-control input-sm text-right numeric", @onchange = "CalTotalAmt()", @Value = Model.VatAmount })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4" style="padding-left: 0;">
+                                        <div class="form-group form-group-sm">
+                                            @Html.LabelFor(m => m.TotalAmount, new { @class = "control-label" })
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form-control input-sm text-right numeric", @readonly = true, @required = true, @Value = Model.TotalAmount })
+                                                <span class="input-group-btn">
+                                                    <button class="btn default btn-sm" type="button">
+                                                       บาท
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                                        <div class="form-group form-group-sm">
+                                            @Html.LabelFor(m => m.PayeeName, new { @class = "control-label" })
+                                           
+                                            @Html.TextBoxFor(m => m.PayeeName, new { @class = "form-control input-sm", @readonly = true, @Value = Model.PayeeName })
+                                            @Html.HiddenFor(m => m.PayeeCode, new { @Value = Model.PayeeCode})
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                                        <div class="form-group form-group-sm">
+                                            @Html.LabelFor(m => m.SellerName, new { @class = "control-label" })
+                                            @Html.TextBoxFor(m => m.SellerName, new { @class = "form-control input-sm", @readonly = true, @Value = Model.SellerName })
+                                            @Html.HiddenFor(m => m.SellerCode, new { @Value = Model.SellerCode })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                                        
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <div class="form-group form-group-sm well">
+
+                                            @{ 
+
+                                                object chkFlagInv = null;
+                                                object chkFlagRec = null;
+
+                                                if(Model.FlagReceiveInvoice == true)
+                                                {
+                                                    chkFlagInv = new { @checked = true };
+                                                }
+
+                                                if(Model.FlagReceiveReceipt == true)
+                                                {
+                                                    chkFlagRec = new { @checked = true };
+                                                }
+
+                                            }
+
+                                            @Html.CheckBox("FlagReceiveInvoice", chkFlagInv)
+                                            @Html.LabelFor(m => m.FlagReceiveInvoice, new { @class = "control-label" })
+                                            &nbsp;
+                                            @Html.CheckBox("FlagReceiveReceipt", chkFlagRec)
+                                            @Html.LabelFor(m => m.FlagReceiveReceipt, new { @class = "control-label" })
+
+                                        </div>
+                                    </div>
+
+                                 
+                                </div>
+
+                                
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="text-center">
+
+                                        @if (Model.mode == "Edit")
+                                        {
+                                            <button class="btn btn-primary" type="button" onclick="SaveEdit(@Model.rowIndex)" style="padding:10px;" >
+                                                บันทึก <i class="fa fa-floppy-o"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button id="btnAddRow" class="btn btn-primary" type="button" onclick="addTrans()" style="padding:10px;">
+                                                เพิ่ม <i class="fa fa-plus"></i>
+                                            </button>
+                                        }
+
+                                        
+                                    </div>
+                                </div>
+                                <hr />
+
+                                <div class="clearfix"></div>
+                                <div class="row">
+                                   
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                          
+                                                <table class="table table-striped table-bordered table-hover" id="tbDetail">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">แก้ไข</th>
+                                                            <th class="text-center" @*style="width:300px;"*@>@Html.DisplayNameFor(m => m.TransDesc)</th>
+                                                            <th class="text-center"  style="min-width:250px;">@Html.DisplayNameFor(m => m.AssetDescription)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.ReceiveDocDate)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.InvoiceDate)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.ClaimDate)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.InvoiceNo)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.ExVatAmount)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.VatAmount)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.TotalAmount)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.FlagReceiveInvoice)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.FlagReceiveReceipt)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.PayeeName)</th>
+                                                            <th class="text-center">@Html.DisplayNameFor(m => m.SellerName)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @Html.Action("_tbDetails", "ManageInputVat", Model)
+                                                    </tbody>
+                                                </table>
+                                           
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="form-group">
+                                    <div class="col-md-12" style="min-height: 1px;">
+                                        <button type="button" id="btnSave" class="input-sm btn green @*@Html.IdFor(x => x.permission.Save)*@" onclick="Save()">บันทึก</button>
+                                        <button type="button" id="btnCancel" class="input-sm btn default" onclick="Clear()">ยกเลิก</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END BODY-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+
+    <script>
+        $(function () {
+            // checkPermission();
+
+            if ($('#ContractCode').val() == "")
+            {
+                disableAddButton();
+            }
+
+            $("#ReceiveDocDate, #InvoiceDate, #ClaimDate").datepicker({
+                language:'th-th',
+                format: 'dd/mm/yyyy'
+            });
+            $('.numeric').autoNumeric();
+
+            $('#tbDetail').DataTable();
+
+            if('@Model.mode' == "Edit")
+            {
+
+            }
+
+            $("#@Html.IdFor(m => m.TransCode)").change(function () {
+
+                var selectopt = $(this).find(':selected');
+
+                var HeaderID = selectopt.attr('header_id');
+                var AssetID = selectopt.attr('asset_id');
+                var AssetType = selectopt.attr('asset_type');
+                var PayeeCode = selectopt.attr('payeecode');
+                var PayeeName = selectopt.attr('payeename');
+                var SellerCode = selectopt.attr('sellercode');
+                var SellerName = selectopt.attr('sellername');
+
+                var transdesc = selectopt.text();
+                if (this.value == '')
+                {
+                    transdesc = '';
+                }
+
+                $('#@Html.IdFor(m => m.TransDesc)').val(transdesc);
+
+                $('#@Html.IdFor(m => m.PayHeaderID)').val(HeaderID);
+                $('#@Html.IdFor(m => m.AssetID)').val(AssetID);
+                $('#@Html.IdFor(m => m.AssetType)').val(AssetType);
+                $('#@Html.IdFor(m => m.PayeeCode)').val(PayeeCode);
+                $('#@Html.IdFor(m => m.PayeeName)').val(PayeeName);
+                $('#@Html.IdFor(m => m.SellerCode)').val(SellerCode);
+                $('#@Html.IdFor(m => m.SellerName)').val(SellerName);
+
+            });
+
+            $("#@Html.IdFor(m => m.TotalAmount)").change(function () {
+
+                $.get('@Url.Action("CalVatAmt", "Base")', { transCode: $('#@Html.IdFor(m => m.TransCode)').val(), amount: this.value })
+                  .done(function (data) {
+                      $('#@Html.IdFor(m => m.ExVatAmount)').val(data.amountExVat);
+                      $('#@Html.IdFor(m => m.VatAmount)').val(data.vat);
+                  });
+
+            });
+
+
+
+        });
+
+        function CalTotalAmt()
+        {
+            var AmtExVat = $('#@Html.IdFor(m => m.ExVatAmount)').val();
+            var VatAmt = $('#@Html.IdFor(m => m.VatAmount)').val();
+            var Total = MoneyOperator(AmtExVat, VatAmt, '+');
+
+            $('#@Html.IdFor(m => m.TotalAmount)').val(Total);
+        }
+
+        function EditRow(rowIndex) {
+            var formData = $('#formMain1, #formMain3').serialize();
+            formData += "&rowIndex=" + rowIndex;
+            $.post(
+                    '@Url.Action("DefaultDataEditRow", "ManageInputVat")',
+                    formData,
+                    function (result) {
+                        $("#divMain3").html(result);
+
+                    }
+                );
+
+        }
+
+        function disableAddButton() {
+
+            $('#btnSave, #btnAddRow').prop('disabled', true);
+        }
+
+        function SaveEdit(rowIndex) {
+
+            if (!$('#formMain3').validate().form()) {
+                return;
+            }
+
+            var formData = $('#formMain1, #formMain3').serialize();
+            formData += "&rowIndex=" + rowIndex;
+
+            $.post(
+                   '@Url.Action("Edit", "ManageInputVat")',
+                   formData,
+                   function (result) {
+
+                       $("#divMain3").html(result);
+
+                       clearRemainField();
+
+                   }
+               );
+        }
+
+        function clearRemainField()
+        {
+            //Clear
+            $('#@Html.IdFor(m => m.TransCode), #@Html.IdFor(m => m.ReceiveDocDate), #@Html.IdFor(m => m.InvoiceDate), #@Html.IdFor(m => m.ClaimDate), #@Html.IdFor(m => m.PayeeCode)').val('');
+            $('#@Html.IdFor(m => m.FlagReceiveInvoice), #@Html.IdFor(m => m.FlagReceiveReceipt)').prop('checked', false);
+        }
+
+        function addTrans() {
+
+            if (!$('#formMain3').validate().form()) {
+                return;
+            }
+
+            var formData = $('#formMain1, #formMain3').serialize();
+            $.post(
+                '@Url.Action("AddTransList", "ManageInputVat")',
+                formData,
+                function (result) {
+
+                        $("#divMain3").html(result);
+
+                        clearRemainField();
+                }
+            );
+        }
+
+        function Save()
+        {
+
+            var formData = $('#formMain1, #formMain3').serialize();
+
+            bootbox.confirm("@Constants.Message.AskConfirmSave", function (rs)
+            {
+                if (rs == true)
+                {
+                    $.post(
+                        '@Url.Action("Save", "ManageInputVat")',
+                        formData,
+                        function (data) {
+
+                            if (data.result == true) {
+                                bootbox.alert({
+                                    message: data.msg,
+                                    callback: function () {
+                                        location.reload();
+                                    }
+                                })
+
+
+                            }
+                            else if (data.result == false) {
+                                alertMessage(data.msg);
+                            }
+
+                        }
+                    );
+                }
+
+
+            });
+
+
+        }
+
+
+    </script>
+
+

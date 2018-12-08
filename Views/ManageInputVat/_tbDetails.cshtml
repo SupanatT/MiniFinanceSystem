@@ -1,0 +1,68 @@
+﻿@using MiniFinance.Common
+@model MiniFinance.ViewModel.ManageInputVat.ManageViewModel
+
+    @{
+        int i = 0;
+    }
+
+    @foreach (var item in Model.lsDetail)
+    {
+        
+
+
+        <tr>
+            <td class="text-center">
+                @Html.HiddenFor(x => x.lsDetail[i].rowIndex, new { @Value = i})
+                @Html.HiddenFor(x => x.lsDetail[i].PayHeaderID)
+                @Html.HiddenFor(x => x.lsDetail[i].TransCode)
+                @Html.HiddenFor(x => x.lsDetail[i].TransDesc)
+                @Html.HiddenFor(x => x.lsDetail[i].ReceiveDocDate)
+                @Html.HiddenFor(x => x.lsDetail[i].InvoiceDate)
+                @Html.HiddenFor(x => x.lsDetail[i].ClaimDate)
+                @Html.HiddenFor(x => x.lsDetail[i].InvoiceNo)
+                @Html.HiddenFor(x => x.lsDetail[i].ExVatAmount)
+                @Html.HiddenFor(x => x.lsDetail[i].VatAmount)
+                @Html.HiddenFor(x => x.lsDetail[i].TotalAmount)
+                @Html.HiddenFor(x => x.lsDetail[i].FlagReceiveInvoice)
+                @Html.HiddenFor(x => x.lsDetail[i].FlagReceiveReceipt)
+                @Html.HiddenFor(x => x.lsDetail[i].PayeeCode)
+                @Html.HiddenFor(x => x.lsDetail[i].PayeeName)
+                @Html.HiddenFor(x => x.lsDetail[i].SellerCode)
+                @Html.HiddenFor(x => x.lsDetail[i].SellerName)
+                @Html.HiddenFor(x => x.lsDetail[i].AssetID)
+                @Html.HiddenFor(x => x.lsDetail[i].AssetType)
+
+                <button class="btn default btn-sm" type="button" onclick="EditRow(@i)">
+                    <i class="fa fa-edit"></i>
+                </button>
+            </td>
+            <td class="text-center">@item.TransDesc</td>
+            <td class="text-left">@Html.Raw(item.AssetDescription)</td>
+            <td class="text-center">@(item.ReceiveDocDate?.ToShortDateString())</td>
+            <td class="text-center">@(item.InvoiceDate?.ToShortDateString())</td>
+            <td class="text-center">@(item.ClaimDate?.ToShortDateString())</td>
+            <td class="text-center">@item.InvoiceNo</td>
+            <td class="text-right">@String.Format("{0:n}", item.ExVatAmount)</td>
+            <td class="text-right">@String.Format("{0:n}", item.VatAmount)</td>
+            <td class="text-center">@String.Format("{0:n}", item.TotalAmount)</td>
+            <td class="text-center">
+                @if (item.FlagReceiveInvoice == true)
+                {
+                    <i class="fa fa-check" style="color:limegreen"></i>
+                }
+            </td>
+            <td class="text-center">
+                @if (item.FlagReceiveReceipt == true)
+                {
+                    <i class="fa fa-check" style="color:limegreen"></i>
+                }
+            </td>
+            <td class="text-left">@item.PayeeName</td>
+            <td class="text-left">@item.SellerName</td>
+
+        </tr>
+        i++;
+    }
+    
+
+    

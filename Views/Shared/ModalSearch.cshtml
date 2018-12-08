@@ -1,0 +1,190 @@
+﻿@using MiniFinance.Common;
+
+@model MiniFinance.ViewModel.Common.PopAdditionalSearchViewModel
+
+@{
+    int i = 1;
+}
+<style>
+@Constants.StyleSheets.colDefault
+</style>
+<div id="modelSearch">
+    <form id="frmModelSearch">
+
+        @Html.HiddenFor(m => m.ControllerName, new { @Value = Model.ControllerName})
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box purple">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>ค้นหาเพิ่มเติม
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title=""></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <!-- BEGIN FORM-->
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group form-group-sm">
+                                        @*@Html.LabelFor(m => m.search, new { @class = "control-label" })*@
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.search, new { @class = "input-sm form-control text-left", @placeholder = "ระบุเงือนไขการค้นหา", @required = "" })
+                                            <div class="input-group-sm input-group-btn">
+                                                <button type="submit" id="btnSearch" class="form-control input-sm btn blue">ค้นหา</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        @{
+                                            foreach (var item in Model.RadioSearch)
+                                            {
+                                                var check = (Constants.SearchCriteria.ContractNo_Value.Equals(item.Value)) ? new { @class = "icheck-list", @checked = "checked" } : null;
+                                                if (i % 2 == 0)
+                                                {
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        @Html.RadioButtonFor(m => m.RadioSearch, item.Value, check)
+                                                        @Html.LabelFor(m => m.RadioSearch, item.Text, new { @class = "control-label" })
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        @Html.RadioButtonFor(m => m.RadioSearch, item.Value, check)
+                                                        @Html.LabelFor(m => m.RadioSearch, item.Text, new { @class = "control-label" })
+                                                    </div>
+                                                }
+                                                i++;
+
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <table class="table table-bordered table-hover no-footer nowrap" id="tbModalSearch">
+                                            <thead style="text-align:center">
+                                                <tr>
+                                                    <th class="text-center" width="50px">เลือก</th>
+                                                    <th class="text-center" scope="col">เลขที่สัญญา</th>
+                                                    <th class="text-center" scope="col">รหัสประจำตัวประชาชน</th>
+                                                    <th class="text-center" scope="col">ชื่อลูกค้า</th>
+                                                    <th class="text-center" scope="col">ประเภทของสัญญา</th>
+                                                    <th class="text-center" scope="col">เลขตัวถัง</th>
+                                                    <th class="text-center" scope="col">เลขทะเบียนรถยนต์</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @*<button type = "button" id="btnAdd" class="btn blue">เพิ่ม</button>
+                                            <button type = "button" id="btnSave" class="btn green">บันทึก</button>
+                                            <button type = "button" id="btnCancel" class="btn default" onclick="">ยกเลิก</button>
+                                            <button type = "button" id="btnDelete" class="btn red">ลบ</button>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<script>
+
+    $(function () {
+        var form = $('#frmModelSearch');
+        $('#tbModalSearch').DataTable();
+        form.validate({
+            submitHandler: function (form) {
+
+                $.ajax({
+                    url: '@Url.Action("ModalSearch", "Base")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                    success: function (e) {
+                        if (e.r == '@Constants.Result.True') {
+                            //alert(e.msg);
+                            $('#tbModalSearch').DataTable().destroy();
+                            $('#tbModalSearch tbody').html(e.partial);
+                            $('#tbModalSearch').DataTable({
+                                aaSorting: [[1, 'asc']]
+                            });
+                        } else {
+                            alertMessage(e.msg);
+                            //window.open('_Index','_top');
+                        }
+
+
+                    }
+                })
+            }
+        });
+    });
+
+    function ModalSearch(code) {
+        clearModal();
+
+        $.ajax({
+            url: '@Url.Action("ModalSearchSelect", Model.ControllerName)',
+            type: 'POST',
+            dataType: 'json',
+            data: { 'code': code },
+            success: function (e) {
+                if (e.r == '@Constants.Result.False') {
+                    alert(e.msg);
+
+                } else {
+
+                    debugger;
+                    $('#divForm').html('');
+                    $('#divForm').html(e.result);
+
+                }
+            }
+        })
+    }
+
+    function keypressHandler(e) {
+        if (e.which == 13) {
+            e.preventDefault(); //stops default action: submitting form
+            $(this).blur();
+            //$('#SubmitButton').focus().click();//give your submit an ID
+            $('#frmModelSearch').submit();
+        }
+    }
+
+    $(function () {
+        $('#frmModelSearch').keypress(keypressHandler);
+    })
+
+</script>
+

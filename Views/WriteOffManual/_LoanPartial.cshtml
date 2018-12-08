@@ -1,0 +1,185 @@
+﻿@using MiniFinance.Common
+@model MiniFinance.ViewModel.WriteOffManual.MainDataViewModel
+
+<div class="row">
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.TransactionDate, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.TransactionDate, new { @class = "form-control input-sm", @readonly = true, @Value = CommonMethods.stringDateTimeNullable(Model.TransactionDate) })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.FollowUpBy, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.FollowUpBy, new { @class = "form-control input-sm", @readonly = true, @Value = Model.FollowUpBy })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.ContractStatus, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.ContractStatus, new { @class = "form-control input-sm", @readonly = true, @Value = Model.ContractStatus })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.Installment, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Installment, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.Installment) })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.InstallmentVat, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.InstallmentVat, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.InstallmentVat) })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.LastReceiptDate, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.LastReceiptDate, new { @class = "form-control input-sm", @readonly = true, @Value = CommonMethods.stringDateTimeNullable(Model.LastReceiptDate) })
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.OverdueAmount, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.OverdueAmount, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.OverdueAmount) })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.OverdueVat, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.OverdueVat, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.OverdueVat) })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.SuspenseAmount, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.SuspenseAmount, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.SuspenseAmount) })
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.PenaltyAmount, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.PenaltyAmount, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.PenaltyAmount) })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.LetterFee, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.LetterFee, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.LetterFee) })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.FollowUpFee, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.FollowUpFee, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.FollowUpFee) })
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.OutstandingBalance, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.OutstandingBalance, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.OutstandingBalance) })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.PrincipalOutstanding, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.PrincipalOutstanding, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.PrincipalOutstanding) })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.InterestOutstanding, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.InterestOutstanding, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.InterestOutstanding) })
+    </div>
+
+</div>
+
+
+
+<div class="row">
+
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.WriteOffAmount, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.WriteOffAmount, new { @class = "form-control text-right input-sm", @readonly = true, @Value = String.Format("{0:n}", Model.WriteOffAmount) })
+    </div>
+
+    @Html.HiddenFor(m => m.WriteOffVatAmount, new { @Value = String.Format("{0:n}", Model.WriteOffVatAmount) })
+    @Html.HiddenFor(m => m.WriteOffExVatAmount, new { @Value = String.Format("{0:n}", Model.WriteOffExVatAmount) })
+</div>
+
+
+<div class="row" style="margin-top:10px;">
+    <div class="col-md-9">
+
+        <div style="margin-bottom:5px;"><b>ตารางค่าธรรมเนียม</b></div>
+
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center" width="10%">ลำดับ</th>
+                    <th class="text-center" width="50%">รายการ</th>
+                    <th class="text-center" width="40%">จำนวนเงินคงเหลือ</th>
+                </tr>
+            </thead>
+            <tbody>
+            @{ 
+                int FeeIndex = 0;
+            }
+
+            @if (Model.lsFee.Count > 0)
+            {
+                foreach (var data in Model.lsFee)
+                {
+                    FeeIndex++;
+
+                    <tr>
+                        <td class="text-center">@FeeIndex</td>
+                        <td class="text-left">@data.TransDesc</td>
+                        <td class="text-right">@String.Format("{0:n}", data.Amount)</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-center" colspan="3">ไม่มีข้อมูล</td>
+                </tr>
+            }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="row" style="margin-top:10px;">
+    <div class="col-md-9">
+
+        <b>ตารางหักจากยอดจัด</b>
+
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center" width="10%">ลำดับ</th>
+                    <th class="text-center" width="50%">รายการ</th>
+                    <th class="text-center" width="40%">จำนวนเงินคงเหลือ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int DeductIndex = 0;
+                }
+
+                @if (Model.lsDeduct.Count > 0)
+                {
+                    foreach (var item in Model.lsDeduct)
+                    {
+                        DeductIndex++;
+
+                            <tr>
+                                <td class="text-center">@DeductIndex</td>
+                                <td class="text-left">@item.TransDesc</td>
+                                <td class="text-right">@String.Format("{0:n}", item.Amount)</td>
+                            </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-center" colspan="3">ไม่มีข้อมูล</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+    

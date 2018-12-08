@@ -1,0 +1,25 @@
+﻿@using MiniFinance.Common;
+@model List<MiniFinance.ViewModel.Common.ModalSearchtbDetail>
+@{
+
+}
+
+@if (Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td class="text-center">
+                <button type="button" id="btnSelect" class="form-control input-sm btn blue" onclick="ModalSearch('@item.ContractCode')">เลือก</button>
+            </td>
+            <td class="text-center" width="50">@item.ContractCode</td>
+            <td class="text-center">@item.CustIDCard</td>
+            <td class="text-left">@item.CustName</td>
+            <td class="text-left">@item.LoanTypeDesc</td>
+            <td class="text-left">@item.ChassisNo</td>
+            <td class="text-left">@item.LicenseNo</td>
+        </tr>
+    }
+}
+
+

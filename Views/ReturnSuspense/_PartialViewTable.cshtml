@@ -1,0 +1,41 @@
+﻿@using MiniFinance.Common
+@using MiniFinance.Models
+@model List<MiniFinance.Models.DataModel.SP_GET_TRANSACTION_SUSPENSE_Result>
+@{
+    int i = 0;
+}
+
+
+@if (!Model.IsNull())
+{
+    if (Model.Count > 0)
+    {
+        foreach (var data in Model)
+        {
+            <tr>
+                <td>
+                    @Html.CheckBox("lsModel["+ i + "].isChecked", new { @class = "chkboxTrans" })
+
+                    @Html.Hidden("lsModel[" + i + "].STM_Id", data.STM_Id)
+                    @Html.Hidden("lsModel[" + i + "].ContractCode", data.ContractCode)
+                    @Html.Hidden("lsModel[" + i + "].CustomerCode", data.CustomerCode)
+                    @Html.Hidden("lsModel[" + i + "].PayeeCode", data.CustomerCode) @*กรณีนี้Payeeกับcust คือคนเดียวกัน*@
+                    @Html.Hidden("lsModel[" + i + "].SuspenseAmt", data.SuspenseAmt)
+                </td>
+                <td class="text-left" scope="col">@data.ContractCode</td>
+                <td class="text-left" scope="col">@data.CustomerName</td>
+                <td class="text-center" scope="col">@data.IdCardNo</td>
+                <td class="text-center" scope="col">@data.LoanTypeDesc</td>
+                <td class="text-center" scope="col">@data.paymentChannelDesc</td>
+                <td class="text-left" scope="col">@data.ReceiptNo</td>
+                <td class="text-center" scope="col">@data.InvoiceNo</td>
+                <td class="text-center" scope="col">@(data.STM_Date?.ToShortDateString())</td>
+                <td class="text-center" scope="col">@(data.Receipt_Date?.ToShortDateString())</td>
+
+                <td class="text-right">@String.Format("{0:n}", data.SuspenseAmt)</td>
+        
+            </tr>
+            i++;
+        }
+    }
+}

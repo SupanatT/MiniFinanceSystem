@@ -1,0 +1,67 @@
+﻿@using MiniFinance.Models;
+@model List<LoginModel.Menu>
+@{
+    var menuLv1 = Model.Where(x => x.Prog_Level.ToString() == "1").ToList();
+    var menuLv2 = Model.Where(x => x.Prog_Level.ToString() == "2").ToList();
+    var menuLv3 = Model.Where(x => x.Prog_Level.ToString() == "3").ToList();
+}
+<ul class="page-sidebar-menu page-header-fixed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+    <li class="heading">
+        <h3 class="uppercase">Menu</h3>
+    </li>
+    @foreach (var lv1 in menuLv1.OrderBy(x => x.Prog_Code))
+            {
+        <li class="head-menu nav-item">
+
+            <a href="@Url.Content("~/" + lv1.Prog_TargetUrl ?? "#")" class="nav-link nav-toggle">
+                <i class="@lv1.Prog_Icon"></i>
+                <span class="title">@lv1.Prog_Name</span>
+                @if (menuLv2.Where(x => x.Prog_ParentCode == lv1.Prog_Code).Count() > 0)
+                {
+                    <span class="arrow"></span>
+                }
+
+            </a>
+            @if (menuLv2.Where(x => x.Prog_ParentCode == lv1.Prog_Code).Count() > 0)
+            {
+                <ul class="sub-menu">
+                    @foreach (var lv2 in menuLv2.Where(x => x.Prog_ParentCode == lv1.Prog_Code).OrderBy(x => x.Prog_Order))
+                    {
+                        <li class="head-menu nav-item">
+                            <a href="@Url.Content("~/" + lv2.Prog_TargetUrl ?? "#")" class="nav-link nav-toggle ">
+                                <i class="fa fa-file-o"></i>
+                                <span class="title">@lv2.Prog_Name</span>
+                                @if (menuLv3.Where(x => x.Prog_ParentCode == lv2.Prog_Code).Count() > 0)
+                                {
+                                    <span class="arrow"></span>
+                                }
+                            </a>
+                            @if (menuLv3.Where(x => x.Prog_ParentCode == lv2.Prog_Code).Count() > 0)
+                            {
+                                <ul class="sub-menu">
+                                    @foreach (var lv3 in menuLv3.Where(x => x.Prog_ParentCode == lv2.Prog_Code).OrderBy(x => x.Prog_Order))
+                                    {
+                                        <li class="head-menu nav-item">
+                                            <a href="@Url.Content("~/" + lv3.Prog_TargetUrl ?? "#")" class="nav-link nav-toggle ">
+                                                <i class="fa fa-file-o"></i>
+                                                <span class="title">@lv3.Prog_Name</span>
+                                                @if (menuLv3.Where(x => x.Prog_ParentCode == lv3.Prog_Code).Count() > 0)
+                                                {
+                                                    <span class="arrow"></span>
+                                                }
+                                            </a>
+
+                                        </li>
+
+
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+
+        </li>
+    }
+</ul>

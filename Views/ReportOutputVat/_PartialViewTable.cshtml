@@ -1,0 +1,51 @@
+﻿@using MiniFinance.Common
+@using MiniFinance.ViewModel.ReportOutputVat
+@model List<tbDetailViewModel>
+
+@{
+    decimal sumAmtExVat = 0;
+    decimal sumVatAmt = 0;
+}
+
+@if (Model.Count > 0)
+{
+    foreach (var data in Model)
+    {
+        sumAmtExVat += data.AmountExVat;
+        sumVatAmt += data.VatAmount;
+
+        <tr>
+            <td class="text-left">@data.CompBranch</td>
+            <td class="text-center">@(data.InvoiceDate != null ? data.InvoiceDate.Value.ToString("dd/MM/yyyy") : "")</td>
+            <td class="text-center">@data.InvoiceNo</td>
+            <td class="text-center">@data.ContractCode</td>
+            <td class="text-left">@data.CustomerName</td>
+            <td class="text-center">@data.CustomerTaxNo</td>
+            <td class="text-center">@data.CustomerBranchCode</td>
+            <td class="text-center">@data.Period</td>
+            <td class="text-left">@data.TransDesc</td>
+            <td class="text-right">@String.Format("{0:n}", data.AmountExVat)</td>
+            <td class="text-right">@String.Format("{0:n}", data.VatAmount)</td>
+        </tr>
+    }
+    <tr>
+        <td class="text-left" colspan="9"><b>รวมทั้งสิ้น</b></td>
+        <td style="display:none;"></td>
+        <td style="display:none;"></td>
+        <td style="display:none;"></td>
+        <td style="display:none;"></td>
+        <td style="display:none;"></td>
+        <td style="display:none;"></td>
+        <td style="display:none;"></td>
+        <td style="display:none;"></td>
+        <td class="text-right"><b>@String.Format("{0:n}", sumAmtExVat)</b></td>
+        <td class="text-right"><b>@String.Format("{0:n}", sumVatAmt)</b></td>
+    </tr>
+}
+
+
+
+
+
+
+

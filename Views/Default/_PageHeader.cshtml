@@ -1,0 +1,30 @@
+﻿<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <span id="headMenu">@ViewBag.HeadMenu</span>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="@Url.Content("~/" + ViewBag.ControllerName)">
+                @ViewBag.SubMenu
+            </a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>@ViewBag.ActionName</span>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div id="dashboard-report-range" class="pull-right tooltips btn btn-sm" data-container="body"
+             data-placement="bottom" data-original-title="System date @DateTime.Today.ToString("dd/MM/yyyy")">
+            <i class="icon-calendar"></i>&nbsp;
+            @DateTime.Today.ToLongDateString() &nbsp;
+        </div>
+    </div>
+</div>
+<br />
+<h3 class="page-title" style="margin:4px !important">
+    @ViewBag.Title &nbsp;
+    <small>@ViewBag.SubTitle</small>
+</h3>
+<br />

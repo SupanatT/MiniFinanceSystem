@@ -1,0 +1,146 @@
+﻿@using MiniFinance.Common;
+
+@model MiniFinance.ViewModel.Common.PopPaymentViewModel
+<form id="formPayment">
+
+    @*@Html.HiddenFor(x => x.ModelMaintains.STM_Id)
+    @Html.HiddenFor(x => x.Mode)*@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box purple" style="margin-bottom: 5px;">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>ช่องทางการจ่ายเงิน
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:" class="collapse" data-original-title="" title=""></a>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <div class="form-body">
+                        @*<div class="alert alert-danger display-hide">
+                                <button class="close" data-close="alert"></button> กรุณากรอกข้อมูล
+                            </div>*@
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group form-group-sm">
+                                    @Html.LabelFor(m => m.PaymentChannel, new { @class = "control-label" })
+                                    @Html.DropDownListFor(m => m.PaymentChannel, SelectListMethods.GetMasterForDropdown(Constants.MasterType.PaymentChannel), Constants.SelectOption.SelectOne, new { @class = "input-sm form-control", required = true })
+                                </div>
+                            </div>
+                         
+                       
+                            <div class="col-md-3">
+                                <div class="form-group form-group-sm">
+                                    @Html.LabelFor(m => m.PaymentDate, new { @class = "control-label" })
+                    
+                                    <div class="input-group input-group-sm date date-picker" data-date-language="th-th" data-date-format="dd/mm/yyyy">
+                                        @Html.TextBoxFor(m => m.PaymentDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm", @placeholder = "วว/ดด/ปปปป", @autocomplete = "off", required = true })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row" id="PayChannelTransferZone">
+                            <div class="col-md-3">
+                                <div class="form-group form-group-sm">
+                                    @Html.LabelFor(m => m.BankCode, new { @class = "control-label" })
+                                    @Html.DropDownListFor(m => m.BankCode, SelectListMethods.GetBankForDropdown(), Constants.SelectOption.SelectOne, new { @class = "input-sm form-control", required = true })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group form-group-sm">
+                                    @Html.LabelFor(m => m.BankBranchCode, new { @class = "control-label" })
+                                    @Html.DropDownListFor(m => m.BankBranchCode, Enumerable.Empty<SelectListItem>(), Constants.SelectOption.SelectOne, new { @class = "input-sm form-control", required = true })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group form-group-sm">
+                                    @Html.LabelFor(m => m.BankAccountNo, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.BankAccountNo, new { @class = "input-sm form-control", @maxlength = "20", required = true })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group form-group-sm">
+                                    @Html.LabelFor(m => m.BankAccountName, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.BankAccountName, new { @class = "input-sm form-control", required = true })
+                                </div>
+                            </div>
+
+                           
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12" style="min-height: 1px;">
+
+                                <button type="button" id="btnSave" class="btn blue" onclick="Save()">บันทึก</button>
+                                <button type="reset" id="btnCancel" class="btn default" onclick="clearModal()">ยกเลิก</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    $(function () {
+        $('.numeric').autoNumeric();
+
+        SetUpField();
+
+        $('#@Html.IdFor(m => m.PaymentChannel)').on('change', function () {
+            if (this.value == '@Constants.PaymentChannel.TRANS')
+            {
+                $('#PayChannelTransferZone').show();
+                $('#PayChannelTransferZone').find('input, select').prop('disabled', false);
+            }
+            else {
+                $('#PayChannelTransferZone').hide();
+                $('#PayChannelTransferZone').find('input, select').prop('disabled', true);
+            }
+            
+        });
+
+        $('#@Html.IdFor(m => m.BankCode)').on('change', function () {
+            var url = '@Url.Action("BindBankBranch", "Base")';
+            dependentDropdown(this.id, '@Html.IdFor(m => m.BankBranchCode)', url, '@Constants.SelectOption.SelectOne');
+        });
+
+
+    });
+
+    function SetUpField()
+    {
+        $('#@Html.IdFor(m => m.BankCode), #@Html.IdFor(m => m.BankBranchCode)').select2({
+            dropdownAutoWidth: true,
+            width: 'auto'
+        });
+
+        $('#PayChannelTransferZone').hide();
+        $('#PayChannelTransferZone').find('input, select').prop('disabled', true);
+
+        $("#@Html.IdFor(m => m.PaymentDate)").datepicker({
+            language: 'th-th',
+            format: 'dd/mm/yyyy',
+            startDate: '-0d'
+
+        });
+    }
+
+
+</script>
+

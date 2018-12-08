@@ -1,0 +1,252 @@
+﻿@using MiniFinance.Common
+@using MiniFinance.Models
+@using MiniFinance.Controllers
+@model MiniFinance.ViewModel.ReportOutputVat.SearchViewModel
+
+@section ScriptFirst{
+    <script>
+        function checkPermission() {
+            @*if ('@Html.ValueFor(x => x.Permission.View)' !== 'True') {
+                $('.@Html.IdFor(x => x.Permission.View)').remove();
+            }*@
+        }
+    </script>
+}
+
+
+<!-- START PAGE BREADCRUMB -->
+
+<ul class="page-breadcrumb breadcrumb">
+    <li>
+        <a href="#">รายงาน</a>
+    </li>
+    <li>
+        <span class="active">รายงานภาษีขาย</span>
+    </li>
+</ul>
+
+<!-- END PAGE BREADCRUMB -->
+
+<form id="formMain1" method="post" action=''>
+    <div class="row" id="info">
+        <div class="col-md-12">
+            <div class="portlet box purple" style="margin-bottom: 5px;">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>ค้นหาข้อมูลภาษีขาย
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.BranchCode, new { @class = "control-label" })
+                                    @Html.DropDownListFor(m => m.BranchCode, SelectListMethods.GetCompanyBranchForDropdown(), Constants.SelectOption.SelectAll, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.FromInvoiceDate, new { @class = "control-label" })
+                                    <div class="input-group input-group-sm date date-picker" data-date-language="th-th" data-date-format="dd/mm/yyyy">
+                                        @Html.TextBoxFor(m => m.FromInvoiceDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm", required = true })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    @Html.LabelFor(m => m.FromInvoiceDate, new { @class = "error display-none" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ToInvoiceDate, new { @class = "control-label" })
+                                    <div class="input-group input-group-sm date date-picker" data-date-language="th-th" data-date-format="dd/mm/yyyy">
+                                        @Html.TextBoxFor(m => m.ToInvoiceDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm", required = true })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    @Html.LabelFor(m => m.ToInvoiceDate, new { @class = "error display-none" })
+                                </div>
+                            </div>
+
+                            
+                        </div>
+
+                        <hr />
+
+                        <div class="row text-center">
+                            <button type="button" id="btnSearch" class="btn green input-sm" onclick="Search()"><i class="fa fa-search"></i>&nbsp;ค้นหา</button>&nbsp;
+                            <button type="reset" id="btnClear" class="btn default input-sm" onclick="Clear()"><i class="fa fa-refresh"></i>&nbsp;ล้างข้อมูล</button>
+                        </div>
+
+                     </div>
+                </div>
+            </div>
+
+            <div class="portlet box purple margin-bottom-5">
+                <div class="portlet-title">
+                    
+                    <div class="actions" id="divSearch">
+                        @* export excel  *@
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" onclick="PrintPDF()" class="dt-button buttons-html5" aria-controls="tbSearch"><span>PDF</span></button>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" id="search-results">
+                                        <table class="table table-striped table-hover nowrap" id="tbSearch">
+                                            <thead style="text-align:center">
+                                                <tr>
+                                                    <th class="text-center" scope="col">สาขา</th>
+                                                    <th class="text-center" scope="col">วันที่</th>
+                                                    <th class="text-center" scope="col">เลขที่ใบกำกับ</th>
+                                                    <th class="text-center" scope="col">เลขที่สัญญา</th>
+                                                    <th class="text-center" scope="col">ชื่อผู้ซื้อสินค้า/รับบริการ</th>
+                                                    <th class="text-center" scope="col">เลขประจำตัวผู้เสียภาษี</th>
+                                                    <th class="text-center" scope="col">สถานประกอบการ</th>
+                                                    <th class="text-center" scope="col">งวดที่</th>
+                                                    <th class="text-center" scope="col">รายการ</th>
+                                                    <th class="text-center" scope="col">มูลค่าสินค้า/บริการ</th>
+                                                    <th class="text-center" scope="col">จำนวนเงินภาษีมูลค่าเพิ่ม 7%</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="text-align:center"></tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+
+
+    $(function () {
+        // checkPermission();
+
+       
+
+       // toDataTable();
+        CustomizeDataTableExport('#tbSearch', '#divSearch');
+    });
+
+    function Search()
+    {
+        if (!$('#formMain1').validate().form()) {
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("Search", "ReportOutputVat")',
+            type: 'POST',
+            dataType: 'json',
+            data: $(formMain1).serialize(),
+
+            success: function (e) {
+                if (e.r === '@Constants.Result.True') {
+
+                    $('#tbSearch').DataTable().destroy();
+                    $('#tbSearch tbody').html(e.result);
+                    //$('#tbSearch').DataTable();
+                    CustomizeDataTableExport('#tbSearch', '#divSearch');
+
+                }
+                else {
+                    $('#tbSearch').DataTable().clear().draw();
+                    alertMessage(e.msg);
+                }
+
+            }
+        });
+    }
+
+    function Clear() {
+       
+        $('#tbSearch').DataTable().clear().draw();
+    }
+
+    function toDataTable()
+    {
+        $('#tbSearch').DataTable({
+            paging: false,
+            bSort: false
+        });
+
+        $('#tbSearch_info').hide(); //ซ่อนtextแสดงจำนวนข้อมูล
+    }
+
+    function CustomizeDataTableExport(tableName, divTarget) {
+
+        var configObj = {
+            paging: false,
+            bSort: false,
+            "dom": '<"col-md-offset-10"<B>> <"clearfix"> lf<"table-scrollable"t>ip',
+            buttons: [{
+                extend: 'excelHtml5',
+                title: "รายงานภาษีขาย",
+                header: true,
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, 'colvis']
+        };
+
+
+        var table = $(tableName).DataTable(configObj);
+
+        if (divTarget != null || divTarget != undefined)
+            table.buttons().container().appendTo(divTarget);
+    }
+
+    function PrintPDF()
+    {
+
+        if (!$('#formMain1').validate().form()) {
+            return;
+        }
+
+        var url = '@Url.Action("Print", "ReportOutputVat")';
+
+        $('#formMain1').attr({
+            action: url,
+            target: "_blank"
+        }).get(0).submit();
+
+        $('#formMain1').attr({
+            action: '',
+            target: ''
+        }) //reset attr after submit
+    }
+
+
+</script>
+
